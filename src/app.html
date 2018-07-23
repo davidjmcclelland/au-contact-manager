@@ -1,5 +1,7 @@
 <template>
   <require from="./styles.css"></require>
+  <!-- add the require to see contact-list in the view -->
+  <require from="./contact-list"></require>
 
   <nav class="navbar navbar-light bg-light fixed-top" role="navigation">
     <a class="navbar-brand" href="#">
@@ -10,8 +12,13 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-md-4">Contact List Placeholder</div>
+      <!-- add the contact-list to where it belongs in the view DOM -->
+      <contact-list class="col-md-4"></contact-list>
       <router-view class="col-md-8"></router-view>
     </div>
   </div>
 </template>
+
+<!--
+There are two important additions. First, we've added another require element at the top, to import our new contact-list into this view. Remember that views are encapsulated, just like modules. So, this makes the contact-list visible from within this view. Second, we now use the custom element, right above our router-view.
+-->
