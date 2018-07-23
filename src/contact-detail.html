@@ -1,0 +1,57 @@
+<template>
+  <div class="card">
+    <div class="card-header text-white bg-primary">
+      <h3>Profile</h3>
+    </div>
+    <div class="card-body">
+      <form role="form">
+
+          <div class="form-group">
+            <label class="col-sm-3 col-form-label">First Name</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="first name" class="form-control" value.bind="contact.firstName">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 col-form-label">Last Name</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="last name" class="form-control" value.bind="contact.lastName">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 col-form-label">Email</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="email" class="form-control" value.bind="contact.email">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-3 col-form-label">Phone Number</label>
+            <div class="col-sm-9">
+              <input type="text" placeholder="phone number" class="form-control" value.bind="contact.phoneNumber">
+            </div>
+          </div>
+
+      </form>
+      <div>
+        <button class="btn btn-success float-right" click.delegate="save()" disabled.bind="!canSave">Save</button>
+      </div>
+    </div>
+  </div>
+</template>
+<!--
+Don't be intimidated by the amount of HTML above. It's mostly all basic form controls and bootstrap structures. If you look at the input elements, you will see that they all have a two-way binding to the appropriate contact's properties. The only real interesting part is the button element at the bottom. This button invokes save when clicked, but notice that it also has its disabled attribute bound to our canSave property. The result is that the user won't be able to save if the API is in the middle of a request or if there is missing contact information.
+
+You should now be able to select contacts in the list, see their details, edit them, save and even see the confirm dialog on unsaved data navigations.
+
+If you play around with the application for a bit, you'll notice a few "buggy" behaviors:
+
+Refreshing the browser with a contact selected results in the correct contact being shown, but not in the correct contact list item being highlighted.
+If you edit some data, try to navigate away and then cancel, the contact list item selection will go out of sync, highlighting the contact you were going to before you cancelled, but not the current contact.
+If you edit some data and save, you will notice that changes in the name are not reflected in the list.
+The reason for these issues is that we have two separate components, our contact-list and our contact-detail which both have their own internal data structures and behaviors, but which do have an affect on each other. The router is controlling the contact detail screen, so it's the ultimate source of truth and the contact list should sync with it. To handle this, we're going to increase the amount of information in our system by introducing pub/sub.
+
+These will be addressed in 4-pubSub branch
+-->
