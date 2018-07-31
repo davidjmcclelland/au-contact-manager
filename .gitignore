@@ -31,6 +31,9 @@ node_modules
 
 # Compiled files
 scripts
+/au-contact-manager.iml
+/au-contact-manager.ipr
+/au-contact-manager.iws
 /au-contact-manager.ipr
 /au-contact-manager.iml
 /au-contact-manager.iws
