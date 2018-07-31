@@ -1,7 +1,6 @@
 # au-contact-manager
 
-Building Out
-[The contact manager displays a view and has a router.](https://aurelia.io/#building-out-the-default-route)
+2-Building Out: [The contact manager displays a view and has a router.](https://aurelia.io/#building-out-the-default-route)
 
 au run --watch
 
