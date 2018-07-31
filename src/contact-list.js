@@ -1,17 +1,21 @@
-/*
-We've got the basic visual structure of our application in place and routing is now working. We've even created our first screen. However, it's not very interesting. We've got a div placeholder for the actual contact list at present. Let's go ahead and build that out, as a contact-list custom element.
-
-Aurelia strives to be a self-consistent framework. As such, building a custom element is the same as creating your App component and your routed components. To create the contact-list custom element, start by creating a new file named contact-list.js and add the following code:
- */
-
 import {WebAPI} from './web-api';
 import {inject} from 'aurelia-framework';
+import {EventAggregator} from 'aurelia-event-aggregator';
+import {ContactUpdated, ContactViewed} from './messages';
 
-@inject(WebAPI)
+@inject(WebAPI, EventAggregator)
 export class ContactList {
-  constructor(api) {
+  constructor(api, ea) {
     this.api = api;
+    this.ea = ea;
     this.contacts = [];
+
+    ea.subscribe(ContactViewed, msg=> this.select(msg.contact));
+    ea.subscribe(ContactUpdated, msg => {
+      let id = msg.conteact.id;
+      let found = this.contacts.find(x => x.id == id);
+      Object.assign(found, msg.contact);
+    });
   }
 
   created() {
@@ -25,12 +29,7 @@ export class ContactList {
 }
 
 /*
-We use a dashed naming convention to separate the words contact-list as our custom element name. The name of the class instead should be defined by using the UpperCamelCase version ContactList.
+We've imported and injected our EventAggregator. Call the subscribe method and pass it the message type and a callback. When the message is published, your callback is fired and passed the instance of the message type. In this case, we use these messages to update our selection as well as the details of the contact that are relevant to our list.
 
-The view-model for our custom element has a few notable characteristics. First, we're using dependency injection. Aurelia has its own dependency injection container, which it uses to instantiate classes in your app. Classes can declare constructor dependencies through inject metadata. This looks a bit different depending on what language you are using. In ES 2015, you can declare an inject static method that returns an array of constructor dependencies while in ES Next and TypeScript, you can use an inject decorator to declare those dependencies. As you can see here, our ContactList class has a dependency on our WebAPI class. When Aurelia instantiates the contact list, it will first instantiate (or locate) an instance of the web API and "inject" that into the contact list's constructor.
-
-The second thing to notice is the created method. All Aurelia components follow a component life-cycle. A developer can opt into any stage of the life-cycle by implementing the appropriate methods. In this case, we're implementing the created hook which gets called after both the view-model and the view are created. We're using this as an opportunity to call our API and get back the list of contacts, which we then store in our contacts property so we can bind it in the view.
-
-Finally, we have a select method for selecting a contact. We'll revisit this shortly, after we take a look at how it's used in the view.
-
+If you run the application now, you should see that everything is working as expected.
  */
